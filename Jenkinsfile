@@ -27,7 +27,7 @@ node {
 	}		
 	
 	stage('Login Docker Hub') {
-		bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+		bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u jaymorelli --password-stdin'
 	}
 
 	stage('Push Image') {
