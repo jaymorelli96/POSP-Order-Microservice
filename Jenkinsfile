@@ -33,12 +33,7 @@ node {
 	        bat 'docker push jaymorelli/posp-order:latest'
 	}
 	
-
-
-
-	post {
-		always {
-			cleanWs()
-		}
-	}
+	stage('Cleaning up') { 
+                bat "docker rmi jaymorelli/posp-order:latest" 
+        } 
 }
