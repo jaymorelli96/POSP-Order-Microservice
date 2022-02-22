@@ -4,10 +4,7 @@ node {
 
 	def dockerImageTag = "com.jaymorelli.posp/order-service"
 	def dockerImage
-	
-	environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerhub-jaymorelli')
-	}
+
 	
 	stage('Clone Repo') {
 	      git branch: 'master',
@@ -23,11 +20,13 @@ node {
 	
 
 	stage('Build Docker Image') {
-	      dockerImage = docker.build("com.jaymorelli.posp/order-service")
+	      dockerImage = docker.build("jaymorelli/posp-order")
 	}		
 	
 	stage('Login Docker Hub') {
-		bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u jaymorelli --password-stdin'
+		docker.withRegistry( '', 'dockerhub-jaymorelli' ) { 
+			dockerImage.push() 
+		}
 	}
 
 	stage('Push Image') {
