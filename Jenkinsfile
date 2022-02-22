@@ -6,11 +6,10 @@ node {
 	def dockerImage
 	
 	stage('Clone Repo') { // for display purposes
-	      // Get some code from a GitHub repository
-	      git 'https://github.com/jaymorelli96/POSP-Order-Microservice.git'
-	      // Get the Maven tool.
-	      // ** NOTE: This 'maven-3.5.2' Maven tool must be configured
-	      // **       in the global configuration.           
+	      git branch: 'master',
+		    credentialsId: 'dd2debc1-138f-41ce-b67d-0c59eda46b60',
+		    url: 'https://github.com/jaymorelli96/POSP-Order-Microservice.git'
+          
 	      mvnHome = tool 'maven-3.8.4'
 	    }
 
