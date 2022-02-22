@@ -5,7 +5,11 @@ node {
 	def dockerImageTag = "com.jaymorelli.posp/order-service"
 	def dockerImage
 	
-	stage('Clone Repo') { // for display purposes
+	environment {
+		DOCKERHUB_CREDENTIALS=credentials('dockerhub-jaymorelli')
+	}
+	
+	stage('Clone Repo') {
 	      git branch: 'master',
 		    credentialsId: 'dd2debc1-138f-41ce-b67d-0c59eda46b60',
 		    url: 'https://github.com/jaymorelli96/POSP-Order-Microservice.git'
@@ -13,18 +17,23 @@ node {
 	      mvnHome = tool 'maven-3.8.4'
 	    }
 
-	stage("Build") {
+	stage('Build Jar') {
 		bat "mvn clean install"
 	}
+	
 
 	stage('Build Docker Image') {
-	      // build docker image
 	      dockerImage = docker.build("com.jaymorelli.posp/order-service")
-	    }
-
-	stage("Run image") {
-	    bat "docker run -p 8081:8081 com.jaymorelli.posp/order-service"
+	}		
+	
+	stage('Login Docker Hub') {
+		bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 	}
+
+	stage('Push Image') {
+	        bat 'docker push jaymorelli/posp-order:latest'
+	}
+	
 
 
 
