@@ -26,7 +26,7 @@ pipeline {
 
         } 
 	    
-	stage('Build Jar')
+	stage('Build Jar') {
 		steps { 
 			bat 'mvn clean install'
 		}
