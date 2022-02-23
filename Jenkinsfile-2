@@ -28,6 +28,7 @@ pipeline {
 				withSonarQubeEnv(installationName: 'sonar') { 
 						bat './mvnw clean package org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
 				}	
+			}
 		}		
 		
 	}
