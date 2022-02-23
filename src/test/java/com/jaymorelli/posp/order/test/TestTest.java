@@ -9,12 +9,6 @@ public class TestTest {
 
 
     @Test
-    void testDiv() {
-        Math m = new Math();
-        assertEquals(4, m.div(8, 2));
-    }
-
-    @Test
     void testMult() {
         Math m = new Math();
         assertEquals(16, m.mult(8, 2));
