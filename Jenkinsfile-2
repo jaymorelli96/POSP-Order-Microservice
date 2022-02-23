@@ -8,17 +8,26 @@ pipeline {
                 bat 'mvn clean compile'
             }
         }
+
         stage('Test') {
             steps {
                 echo 'Testing'
                 bat 'mvn test'
             }
         }
-		stage('jacoco') {
+
+		stage('Jacoco Code Coverage') {
 			steps {
 			echo 'Jacoco Coverage'
 			jacoco()
 			}
+		}
+
+		stage('Sonar Scan') {
+			steps {
+				withSonarQubeEnv(installationName: 'sonar') { 
+						bat './mvnw clean package org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
+				}	
 		}		
 		
 	}
