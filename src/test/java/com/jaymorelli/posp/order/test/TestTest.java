@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 class TestTest {
 
 
+    @Test
+    void testDiv() {
+        Math m = new Math();
+        assertEquals(4, m.div(8, 2));
+    }
+
 
     @Test
     void testMult() {
