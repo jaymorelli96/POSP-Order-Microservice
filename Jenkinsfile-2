@@ -1,0 +1,29 @@
+pipeline { 
+    agent any 
+
+    stages { 
+	    
+        stage('Build Jar') {
+            steps { 
+                bat 'mvn clean install'
+            }
+        } 
+	    
+        	stage('Sonar Scan') {
+		steps {
+			withSonarQubeEnv(installationName: 'sonar') { 
+				  bat './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
+			}	
+		}
+	}
+
+
+    }
+
+	post {
+		always {
+			cleanWs()
+		}
+	}
+
+}

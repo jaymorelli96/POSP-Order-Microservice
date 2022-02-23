@@ -17,9 +17,17 @@
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
+
+		<!-- STARTER -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -27,14 +35,47 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+		<!-- API DOCUMENTATION -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-webflux-ui</artifactId>
+			<version>1.5.2</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-webflux-core</artifactId>
+			<version>1.5.2</version>
+		</dependency>
+
+		<!-- REACTIVE -->
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+
+		<!-- TEST -->
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+			<version>3.2.3.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>4.0.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>mockwebserver</artifactId>
+			<version>4.0.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -53,7 +94,54 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.6.0.1398</version>
+            </plugin>
+        	<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.6</version>
+        	</plugin>
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+		<id>coverage</id>
+		<activation>
+			<activeByDefault>true</activeByDefault>
+		</activation>
+		<build>
+			<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+				<execution>
+					<id>prepare-agent</id>
+					<goals>
+					<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>report</id>
+					<goals>
+					<goal>report</goal>
+					</goals>
+				</execution>
+				</executions>
+			</plugin>
+			</plugins>
+		</build>
+		</profile>
+	</profiles>
+
 </project>
+
+
+
+
+
+
