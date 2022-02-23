@@ -3,7 +3,9 @@ pipeline {
 
     stages { 
 		stage('build') {
-			bat 'mvn clean install'
+			steps {
+				bat 'mvn clean install'
+			}
 		}
 		stage('jacoco') {
 			steps {
