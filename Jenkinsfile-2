@@ -2,13 +2,21 @@ pipeline {
     agent any 
 
     stages { 
-		stage('build') {
-			steps {
-				bat 'mvn clean install -DskipTests'
-			}
-		}
+        stage('Build') {
+            steps {
+                echo 'Clean Build'
+                bat 'mvn clean compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing'
+                bat 'mvn test'
+            }
+        }
 		stage('jacoco') {
 			steps {
+			echo 'Jacoco Coverage'
 			jacoco()
 			}
 		}		
