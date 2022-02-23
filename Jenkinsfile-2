@@ -6,7 +6,7 @@ pipeline {
 		stage('jacoco') {
 			steps {
 			jacoco( 
-			      execPattern: '**/target/**.exec',
+			      execPattern: '**/target/coverage-reports/**.exec',
 			      classPattern: '**/target/classes',
 				  sourcePattern: '**/src/main/java/**',
 			      inclusionPattern: '**/*.class',
