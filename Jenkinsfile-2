@@ -2,16 +2,12 @@ pipeline {
     agent any 
 
     stages { 
-
+		stage('build') {
+			bat 'mvn clean install'
+		}
 		stage('jacoco') {
 			steps {
-			jacoco( 
-			      execPattern: '**/**.exec',
-			      classPattern: '**/classes',
-				  sourcePattern: '**/src/main/java',
-			      inclusionPattern: '**/*.class',
-				  exclusionPattern: '**/*Test*.class'
-			)
+			jacoco()
 
 			}
 		}		
