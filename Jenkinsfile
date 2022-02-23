@@ -13,19 +13,20 @@ pipeline {
     agent any 
 
     stages { 
-        stage('Cloning our Git') { 
-            steps { 
-		        git branch: 'master',
-                    credentialsId: 'dd2debc1-138f-41ce-b67d-0c59eda46b60',
-                    url: 'https://github.com/jaymorelli96/POSP-Order-Microservice.git' 
-            }
-        } 
 	    
         stage('Build Jar') {
             steps { 
                 bat 'mvn clean install'
             }
         } 
+	    
+	stage('Sonar Scan') {
+		steps {
+			withSonarQubeEnv(installationName: 'sonar') { 
+				  bat './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
+			}	
+		}
+	}
 
         stage('Build image') { 
             steps { 
