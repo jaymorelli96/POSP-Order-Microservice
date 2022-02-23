@@ -1,6 +1,6 @@
 package com.jaymorelli.posp.order.test;
 
-public class Test {
+public class Math {
 
 
     public int sum(int x, int y) {

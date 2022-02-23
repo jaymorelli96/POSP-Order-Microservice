@@ -2,33 +2,37 @@ pipeline {
     agent any 
 
     stages { 
+        stage('Build') {
+            steps {
+                echo 'Clean Build'
+                bat 'mvn clean compile'
+            }
+        }
 
-		stage('jacoco') {
+        stage('Test') {
+            steps {
+                echo 'Testing'
+                bat 'mvn test'
+            }
+        }
+
+		stage('Jacoco Code Coverage') {
 			steps {
-			jacoco( 
-			      execPattern: '**/**.exec',
-			      classPattern: '**/classes',
-				  sourcePattern: '**/src/main/java',
-			      inclusionPattern: '**/*.class',
-				  exclusionPattern: '**/*Test*.class'
-			)
-
+			echo 'Jacoco Coverage'
+			jacoco()
 			}
 		}
 
 		stage('Sonar Scan') {
 			steps {
 				withSonarQubeEnv(installationName: 'sonar') { 
-						bat './mvnw clean package org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
+						bat './mvnw org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
 				}	
-		}
-		
-			
+			}
+		}		
 		
 	}
 
-
-    }
 
 	post {
 		always {
