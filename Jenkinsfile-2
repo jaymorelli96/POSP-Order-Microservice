@@ -7,8 +7,7 @@ pipeline {
 			steps {
 			jacoco( 
 			      execPattern: 'target/jacoco.exec',
-			      classPattern: 'target/classes/com/jaymorelli/posp/order/test',
-			      sourcePattern: '**/order/**',
+			      classPattern: 'target/classes/**',
 			      inclusionPattern: '**/*.class'
 			)
 			}
