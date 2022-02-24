@@ -1,4 +1,4 @@
-package com.jaymorelli.posp.order;
+package com.jaymorelli;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

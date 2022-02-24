@@ -8,7 +8,7 @@
 		<version>2.6.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.jaymorelli.posp</groupId>
+	<groupId>com.jaymorelli</groupId>
 	<artifactId>order</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>order</name>
@@ -36,6 +36,10 @@
 			<optional>true</optional>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
 		<!-- API DOCUMENTATION -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -47,6 +51,13 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-webflux-core</artifactId>
 			<version>1.5.2</version>
+		</dependency>
+		
+		<!-- DATABASE -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+			<version>2.6.0</version>
 		</dependency>
 
 		<!-- REACTIVE -->
