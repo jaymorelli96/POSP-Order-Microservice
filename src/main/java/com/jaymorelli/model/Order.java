@@ -5,22 +5,30 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
 
+    @Id
     private String id;
     private Item[] items;
     private String table;
     private double totalCost;
-
     private LocalDateTime createdAt;
 
-    @JsonCreator
     public Order(Item[] items, String table) {
         this.items = items;
         this.table = table;
@@ -28,9 +36,7 @@ public class Order {
         this.createdAt = LocalDateTime.now();
     }
 
-
     public double calculateTotalCost() {
-        System.out.println("inside");
         //1. Prepare result;
         double result = 0;
 
@@ -39,8 +45,8 @@ public class Order {
         for (Item item : itemsList) {
             result += item.getPrice();
         }
-
-        //3. Return value;
+        
+        //3. Return value
         return result;
     }
 }
