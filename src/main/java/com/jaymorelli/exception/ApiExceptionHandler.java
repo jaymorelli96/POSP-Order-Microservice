@@ -10,21 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.support.WebExchangeBindException;
+import org.springframework.web.server.ServerWebInputException;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(WebExchangeBindException.class)
-    public ResponseEntity<?> handleException(WebExchangeBindException e) {
-        List<String> errors = e.getBindingResult()
-                .getAllErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+    @ExceptionHandler(ServerWebInputException.class)
+    public ResponseEntity<?> handleException(ServerWebInputException e) {
+        System.out.println("error");
+        String error = e.getMessage();
 
 
         ValidationException apiException = new ValidationException(
-                                        errors,
+                                        error,
                                         HttpStatus.UNPROCESSABLE_ENTITY,
                                         ZonedDateTime.now()
                                     );

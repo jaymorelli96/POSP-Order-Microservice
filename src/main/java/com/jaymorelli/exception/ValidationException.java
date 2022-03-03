@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class ValidationException{
     
-    private List<String> errorMessages;
+    private String errorMessages;
     private HttpStatus httpStatus;
     private ZonedDateTime timestap;
 
