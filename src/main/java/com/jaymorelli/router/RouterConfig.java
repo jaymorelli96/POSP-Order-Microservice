@@ -15,12 +15,13 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
 public class RouterConfig {
-    
-    @Autowired
-    private OrderHandler handler;
 
+    /**
+     * Router function for the endpoints of the Order service.
+     * @return A server response.
+     */
     @Bean
-    public RouterFunction<ServerResponse> routerFunction() {
+    public RouterFunction<ServerResponse> routerFunction(OrderHandler handler) {
         return RouterFunctions
             .route(RequestPredicates.POST("/order"), handler::createOrder);
     }

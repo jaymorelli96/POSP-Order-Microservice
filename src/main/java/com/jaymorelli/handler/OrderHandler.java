@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.jaymorelli.dto.OrderDTO;
 import com.jaymorelli.model.Order;
 import com.jaymorelli.repository.OrderRepository;
+import com.jaymorelli.service.OrderService;
 import com.jaymorelli.validator.OrderValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,12 @@ import reactor.core.publisher.Mono;
 @Service
 public class OrderHandler {
 
-    @Autowired
-    OrderRepository orderRepository;
 
-    private final Validator validator = new OrderValidator();
+    private final OrderService service;
+
+    public OrderHandler(OrderService service) {
+        this.service = service;
+    }
 
 
     /**
@@ -34,48 +37,15 @@ public class OrderHandler {
      * @return ServerResponse with the Order object in the body 
      */
     public Mono<ServerResponse> createOrder(ServerRequest request) {
-        Mono<OrderDTO> dto = request.bodyToMono(OrderDTO.class).doOnNext(this::validate);
+        Mono<OrderDTO> dto = request.bodyToMono(OrderDTO.class);
         
-        Mono<Order> result = dto.flatMap(orderDto -> {
-
-            Order order = mapperOrderDTOToEntity(orderDto);
-            return orderRepository.save(order);
-        });        
-
+        Mono<Order> result = service.createOrder(dto);   
 
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)    
                 .body(result, Order.class);
     }
 
-    private void validate(OrderDTO orderDTO) {
-		Errors errors = new BeanPropertyBindingResult(orderDTO, "orderDTO");
-		validator.validate(orderDTO, errors);
-		if (errors.hasErrors()) {
-            System.out.println(errors.hasErrors());
-			throw new ServerWebInputException(errors.getAllErrors().get(0).toString()); // (3)
-		}
-	}
 
-    public Mono<ServerResponse> getError(ServerRequest request) {
-        throw new ServerWebInputException("erro!");
-    }
-
-
-
-    /**
-     * Mapper for OrderDTO to Entity.
-     * @param dto
-     * @return Order
-     */
-    public Order mapperOrderDTOToEntity(OrderDTO dto) {
-        Order order = new Order();
-        order.setCreatedAt(LocalDateTime.now());
-        order.setItems(dto.getItems());
-        order.setTable(dto.getTable());
-        order.setTotalCost(order.calculateTotalCost());
-
-        return order;
-    }
     
 }

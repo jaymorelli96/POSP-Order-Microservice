@@ -15,8 +15,14 @@ public class OrderValidator implements org.springframework.validation.Validator 
         return OrderDTO.class.equals(clazz);
     }
 
+    /**
+     * Validate OrderDTO object. It will reject if the items or table are set to null or empty
+     * @param obj
+     * @param e
+     */
     public void validate(Object obj, Errors e) {
         ValidationUtils.rejectIfEmpty(e, "table", "table.empty");
+        ValidationUtils.rejectIfEmpty(e, "items", "items.empty");
     }
     
 }
