@@ -8,7 +8,6 @@ import com.jaymorelli.repository.OrderRepository;
 import com.jaymorelli.validator.OrderValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
@@ -18,7 +17,6 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ServerWebInputException;
 
 import reactor.core.publisher.Mono;
-import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
@@ -40,8 +38,6 @@ public class OrderService {
         return result;
     }
 
-
-
     private void validate(OrderDTO orderDTO) {
         
 		Errors errors = new BeanPropertyBindingResult(orderDTO, "orderDTO");
@@ -50,11 +46,6 @@ public class OrderService {
 			throw new ServerWebInputException(errors.getAllErrors().get(0).toString()); // (3)
 		}
 	}
-
-    public Mono<ServerResponse> getError(ServerRequest request) {
-        throw new ServerWebInputException("erro!");
-    }
-
 
 
     /**

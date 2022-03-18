@@ -37,15 +37,16 @@ public class OrderHandler {
      * @return ServerResponse with the Order object in the body 
      */
     public Mono<ServerResponse> createOrder(ServerRequest request) {
+        //1. Extract JSON object from Server Request.
         Mono<OrderDTO> dto = request.bodyToMono(OrderDTO.class);
         
+        //2. Send request to service and get the Order object.
         Mono<Order> result = service.createOrder(dto);   
 
+        //3. Return server response and the order object in the body.
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)    
                 .body(result, Order.class);
     }
 
-
-    
 }

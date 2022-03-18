@@ -121,7 +121,7 @@
 				<version>0.8.6</version>
 				<configuration>
 					<excludes>
-						<exclude>com/jaymorelli/posp/order/OrderApplication.java</exclude>
+						<exclude>com/jaymorelli/OrderApplication.java</exclude>
 					</excludes>
 				</configuration>
 				<executions>

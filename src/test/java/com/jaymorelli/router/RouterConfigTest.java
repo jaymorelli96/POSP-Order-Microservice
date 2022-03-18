@@ -4,18 +4,13 @@ import static org.mockito.Mockito.when;
 
 import com.jaymorelli.handler.OrderHandler;
 import com.jaymorelli.model.Order;
-import com.jaymorelli.repository.OrderRepository;
 import com.jaymorelli.service.OrderService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.server.RouterFunction;
-import org.springframework.web.reactive.function.server.ServerRequest;
 
 import reactor.core.publisher.Mono;
 
@@ -40,7 +35,7 @@ public class RouterConfigTest {
 
     
     @Test
-    void testRouterFunction() {
+    void testRouterFunction_CreateOrder_POST() {
         //1. Prepare data
         Order order = new Order();
         order.setTable("Table Test");
