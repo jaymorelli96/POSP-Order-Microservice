@@ -129,4 +129,19 @@ public class RouterConfigTest {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
         ;
     }
+
+    @Test
+    void testRouterFunction_RemoveOrder_DELETE() {
+        //1. Mock service
+        when(orderService.removeOrder("id"))
+        .thenReturn(Mono.empty());
+
+        //2. Mock call and assert
+        client.delete()
+                .uri(uriBuilder -> uriBuilder.path("/order")
+                        .queryParam("id", "id")
+                        .build())
+                .exchange()
+                .expectStatus().isOk()        ;
+    }
 }

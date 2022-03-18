@@ -88,4 +88,20 @@ public class OrderHandler {
 
     }
 
+    /**
+     * Recieve DELETE request from the router to remove an Order object from the MongoDB
+     * @param request ServerRequest
+     * @return ServerResponse 
+     */
+    public Mono<ServerResponse> removeOrder(ServerRequest request) {
+        //1. Extract id from Server Request.
+        Optional<String> id = request.queryParam("id");
+        
+        //2. Send request to service and get the Order object.
+        if(id.isPresent()) service.removeOrder(id.get());
+
+        //3. Return server response and the order object in the body.
+        return ServerResponse.ok().build();
+    }
+
 }

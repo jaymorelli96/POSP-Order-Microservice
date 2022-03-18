@@ -6,6 +6,9 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.springframework.data.domain.Sort;
@@ -129,6 +132,18 @@ public class OrderServiceTest {
         assertEquals(19.99, result.getTotalCost(), 0.1);
         assertEquals("table 4", result.getTable());
         assertArrayEquals(items, result.getItems());
+    }
+
+    @Test
+    void testRemoveOrder() {
+        //1. Mock repository 'findAll'
+        when(repository.deleteById("id")).thenReturn(Mono.empty());
+
+        //2. Call service method synchronously
+        service.removeOrder("id").block();
+
+        //3. Assert
+        verify(repository, times(1)).deleteById("id");
     }
 
 

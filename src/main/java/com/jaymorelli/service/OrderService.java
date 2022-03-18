@@ -105,4 +105,8 @@ public class OrderService {
         return order;
     }
 
+    public Mono<Void> removeOrder(String id) {
+        return orderRepository.deleteById(id);
+    }
+
 }

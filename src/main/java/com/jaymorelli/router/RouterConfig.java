@@ -19,7 +19,8 @@ public class RouterConfig {
     public RouterFunction<ServerResponse> routerFunction(OrderHandler handler) {
         return RouterFunctions
             .route(RequestPredicates.POST("/order"), handler::createOrder)
-            .andRoute(RequestPredicates.GET("/order"), handler::getOrder);
+            .andRoute(RequestPredicates.GET("/order"), handler::getOrder)
+            .andRoute(RequestPredicates.DELETE("/order"), handler::removeOrder);
     }
 
 }
