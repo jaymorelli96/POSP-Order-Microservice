@@ -11,6 +11,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class RouterConfig {
 
+    private static final String ENDPOINT_PATH = "/order";
+
     /**
      * Router function for the endpoints of the Order service.
      * @return A server response.
@@ -18,9 +20,9 @@ public class RouterConfig {
     @Bean
     public RouterFunction<ServerResponse> routerFunction(OrderHandler handler) {
         return RouterFunctions
-            .route(RequestPredicates.POST("/order"), handler::createOrder)
-            .andRoute(RequestPredicates.GET("/order"), handler::getOrder)
-            .andRoute(RequestPredicates.DELETE("/order"), handler::removeOrder);
+            .route(RequestPredicates.POST(ENDPOINT_PATH), handler::createOrder)
+            .andRoute(RequestPredicates.GET(ENDPOINT_PATH), handler::getOrder)
+            .andRoute(RequestPredicates.DELETE(ENDPOINT_PATH), handler::removeOrder);
     }
 
 }
