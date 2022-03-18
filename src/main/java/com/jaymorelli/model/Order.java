@@ -37,10 +37,10 @@ public class Order {
     }
 
     public double calculateTotalCost() {
-        //1. Prepare result;
+        //1. Prepare result
         double result = 0;
 
-        //2. Sum all items;
+        //2. Sum all items
         List<Item> itemsList = Arrays.asList(items);
         for (Item item : itemsList) {
             result += item.getPrice();

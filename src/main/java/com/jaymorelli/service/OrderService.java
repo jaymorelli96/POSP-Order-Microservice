@@ -8,14 +8,14 @@ import com.jaymorelli.repository.OrderRepository;
 import com.jaymorelli.validator.OrderValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.reactive.function.server.ServerRequest;
-import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ServerWebInputException;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -27,6 +27,13 @@ public class OrderService {
 
     private final Validator validator = new OrderValidator();
 
+    /**
+    * Create a new order document.
+    * It validates de DTO and then map to Order object.
+    * Finally will call MongoDB repository to create a new order. 
+    * @param dto Order DTO
+    * @return Mono of the newly created object.
+    */
     public Mono<Order> createOrder(Mono<OrderDTO> dto) {
 
         Mono<Order> result = dto.flatMap(orderDto -> {
@@ -38,6 +45,40 @@ public class OrderService {
         return result;
     }
 
+    /**
+    * Get all orders sorted by the type and direction.
+    * @param type Sort by type
+    * @param sort Sort direction
+    * @return Flux of orders.
+    */
+    public Flux<Order> getOrders(String sort, String type) {
+        return orderRepository.findAll(Sort.by(Sort.Direction.fromString(sort), type));
+    }
+
+    /**
+    * Get all orders.
+    * @return Flux of orders.
+    */
+    public Flux<Order> getOrders() {
+        return orderRepository.findAll();
+    }
+      
+    /**
+    * Get an order by id.
+    * @param id order id
+    * @return Mono of order.
+    */
+    public Mono<Order> getOrder(String id) {
+        return orderRepository.findById(id);
+    }
+
+
+    /**
+     * Validade a orderDTO. It will call the OrderValidator class for validation.
+     * It will throw ServerWebInputException if orderDTO.table or orderDTO.item is empty/null.
+     * @param orderDTO Order DTO
+     * @throws ServerWebInputException
+     */
     private void validate(OrderDTO orderDTO) {
         
 		Errors errors = new BeanPropertyBindingResult(orderDTO, "orderDTO");
@@ -50,6 +91,7 @@ public class OrderService {
 
     /**
      * Mapper for OrderDTO to Entity.
+     * It will call calculate total cost of the order object and also set the createdAt property.
      * @param dto
      * @return Order
      */
@@ -62,4 +104,5 @@ public class OrderService {
 
         return order;
     }
+
 }

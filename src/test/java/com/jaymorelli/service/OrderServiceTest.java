@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import org.springframework.data.domain.Sort;
 import java.time.LocalDateTime;
 
 import com.jaymorelli.dto.OrderDTO;
@@ -24,6 +25,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.server.ServerWebInputException;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
@@ -48,6 +50,10 @@ public class OrderServiceTest {
         items,
         "table 4"
     );
+    private Order order2 = new Order(
+        items,
+        "table 2"
+    );
 
 
     @Test
@@ -59,9 +65,59 @@ public class OrderServiceTest {
         Order result = service.createOrder(Mono.just(dto)).block();
 
         //3. Assert result
-        assertEquals(result.getTotalCost(), 19.99, 0.1);
-        assertEquals(result.getTable(), "table 4");
-        assertArrayEquals(result.getItems(), items);
+        assertEquals(19.99, result.getTotalCost(), 0.1);
+        assertEquals("table 4", result.getTable());
+        assertArrayEquals(items, result.getItems());
+    }
+
+    @Test
+    void testGetOrder() {
+        //1. Mock repository 'findAll'
+        when(repository.findAll()).thenReturn(Flux.just(order, order2));
+
+        //2. Call service method synchronously
+        Order result1 = service.getOrders().blockFirst();
+        Order result2 = service.getOrders().blockLast();
+
+        //3. Assert result
+        assertEquals(19.99, result1.getTotalCost(), 0.1);
+        assertEquals("table 4", result1.getTable());
+        assertArrayEquals(items, result1.getItems());
+        assertEquals(19.99, result2.getTotalCost(), 0.1);
+        assertEquals("table 2", result2.getTable());
+        assertArrayEquals(items, result2.getItems());
+    }
+
+    @Test
+    void testGetOrder_Sort() {
+        //1. Mock repository 'findAll'
+        when(repository.findAll(Sort.by(Sort.Direction.fromString("asc"), "table"))).thenReturn(Flux.just(order2, order));
+
+        //2. Call service method synchronously
+        Order result1 = service.getOrders("asc", "table").blockFirst();
+        Order result2 = service.getOrders("asc", "table").blockLast();
+
+        //3. Assert result
+        assertEquals(19.99, result1.getTotalCost(), 0.1);
+        assertEquals("table 2", result1.getTable());
+        assertArrayEquals(items, result1.getItems());
+        assertEquals(19.99, result2.getTotalCost(),  0.1);
+        assertEquals("table 4", result2.getTable());
+        assertArrayEquals(items, result2.getItems());
+    }
+
+    @Test
+    void testGetOrder_id() {
+        //1. Mock repository 'findAll'
+        when(repository.findById("id")).thenReturn(Mono.just(order));
+
+        //2. Call service method synchronously
+        Order result = service.getOrder("id").block();
+
+        //3. Assert result
+        assertEquals(19.99, result.getTotalCost(), 0.1);
+        assertEquals("table 4", result.getTable());
+        assertArrayEquals(items, result.getItems());
     }
 
     @Test
@@ -70,9 +126,9 @@ public class OrderServiceTest {
         Order result = service.mapperOrderDTOToEntity(dto);
 
         //2. Assert result
-        assertEquals(result.getTotalCost(), 19.99, 0.1);
-        assertEquals(result.getTable(), "table 4");
-        assertArrayEquals(result.getItems(), items);
+        assertEquals(19.99, result.getTotalCost(), 0.1);
+        assertEquals("table 4", result.getTable());
+        assertArrayEquals(items, result.getItems());
     }
 
 
