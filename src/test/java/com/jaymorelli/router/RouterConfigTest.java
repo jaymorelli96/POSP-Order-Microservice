@@ -60,6 +60,31 @@ public class RouterConfigTest {
     }
 
     @Test
+    void testRouterFunction_UpdateOrder_PUT() {
+        //1. Prepare data
+        Order order = new Order();
+        order.setTable("Table Test");
+        order.setId("id");
+        Mono<Order> result = Mono.just(order);
+
+        //2. Mock service
+        when(orderService.updateOrder(any(String.class), any()))
+        .thenReturn(result);
+
+        //3. Mock call and assert
+        client.put()
+                .uri(uriBuilder -> uriBuilder.path("/order")
+                        .queryParam("id", "id")
+                        .build())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(result), Order.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        ;
+    }
+
+    @Test
     void testRouterFunction_GetOrder_GET() {
         //1. Prepare data
         Order order = new Order();

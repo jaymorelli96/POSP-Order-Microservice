@@ -22,6 +22,7 @@ public class RouterConfig {
         return RouterFunctions
             .route(RequestPredicates.POST(ENDPOINT_PATH), handler::createOrder)
             .andRoute(RequestPredicates.GET(ENDPOINT_PATH), handler::getOrder)
+            .andRoute(RequestPredicates.PUT(ENDPOINT_PATH), handler::updateOrder)
             .andRoute(RequestPredicates.DELETE(ENDPOINT_PATH), handler::removeOrder);
     }
 

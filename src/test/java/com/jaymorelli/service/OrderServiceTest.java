@@ -74,6 +74,22 @@ public class OrderServiceTest {
     }
 
     @Test
+    void testUpdateOrder() {
+        //1. Mock repository 'save' and 'findById' calls.
+        when(repository.findById("id")).thenReturn(Mono.just(order2));
+        when(repository.save(order2)).thenReturn(Mono.just(order2));
+
+
+        //2. Call service method synchronously
+        Order result = service.updateOrder("id", Mono.just(dto)).block();
+
+        //3. Assert result
+        assertEquals(19.99, result.getTotalCost(), 0.1);
+        assertEquals("table 4", result.getTable()); //dto Table value
+        assertArrayEquals(items, result.getItems());
+    }
+
+    @Test
     void testGetOrder() {
         //1. Mock repository 'findAll'
         when(repository.findAll()).thenReturn(Flux.just(order, order2));
@@ -133,6 +149,8 @@ public class OrderServiceTest {
         assertEquals("table 4", result.getTable());
         assertArrayEquals(items, result.getItems());
     }
+
+
 
     @Test
     void testRemoveOrder() {

@@ -36,13 +36,25 @@ public class OrderService {
     */
     public Mono<Order> createOrder(Mono<OrderDTO> dto) {
 
-        Mono<Order> result = dto.flatMap(orderDto -> {
+        return dto.flatMap(orderDto -> {
             this.validate(orderDto);
             Order order = mapperOrderDTOToEntity(orderDto);
             return orderRepository.save(order);
-        });    
+        });
+    }
 
-        return result;
+    public Mono<Order> updateOrder(String id, Mono<OrderDTO> dto) {
+       return dto.flatMap(orderDto -> {
+            this.validate(orderDto);
+            Order order = mapperOrderDTOToEntity(orderDto);
+            return orderRepository.findById(id).flatMap(data -> {
+                data.setItems(order.getItems());
+                data.setTable(order.getTable());
+                data.setCreatedAt(order.getCreatedAt());
+                data.setTotalCost(order.getTotalCost());
+                return orderRepository.save(data);
+            });
+        });
     }
 
     /**
@@ -108,5 +120,7 @@ public class OrderService {
     public Mono<Void> removeOrder(String id) {
         return orderRepository.deleteById(id);
     }
+
+
 
 }

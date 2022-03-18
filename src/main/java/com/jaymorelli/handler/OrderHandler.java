@@ -42,6 +42,32 @@ public class OrderHandler {
                 .body(result, Order.class);
     }
 
+    
+    /**
+     * Recieve PUT request from the router to save an Order object into the MongoDB
+     * @param request ServerRequest
+     * @return ServerResponse with the Order object in the body 
+     */
+    public Mono<ServerResponse> updateOrder(ServerRequest request) {
+        //1. Extract JSON object and id from Server Request.
+        Mono<OrderDTO> dto = request.bodyToMono(OrderDTO.class);
+        Optional<String> id = request.queryParam("id");
+        
+        //2. Send request to service and get the Order object.
+        Mono<Order> result;
+        if(id.isPresent()) result = service.updateOrder(id.get(), dto);
+        else {
+            return ServerResponse.badRequest()
+            .contentType(MediaType.APPLICATION_JSON)    
+            .body("ID is not present", String.class);
+        }
+
+        //3. Return server response and the order object in the body.
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)    
+                .body(result, Order.class);
+    }
+
     /**
      * GET Request to retrieve Order(s). 
      * Server request may contain query params, where it can return a specific order or sort all orders.
