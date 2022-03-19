@@ -33,7 +33,7 @@ public class OrderHandler {
         //1. Extract JSON object from Server Request.
         Mono<OrderDTO> dto = request.bodyToMono(OrderDTO.class);
         
-        //2. Send request to service and get the Order object.
+        //2. Send request to service.
         Mono<Order> result = service.createOrder(dto);   
 
         //3. Return server response and the order object in the body.
@@ -44,7 +44,7 @@ public class OrderHandler {
 
     
     /**
-     * Recieve PUT request from the router to save an Order object into the MongoDB
+     * Recieve PUT request from the router to update an Order object in the MongoDB
      * @param request ServerRequest
      * @return ServerResponse with the Order object in the body 
      */
@@ -53,7 +53,7 @@ public class OrderHandler {
         Mono<OrderDTO> dto = request.bodyToMono(OrderDTO.class);
         Optional<String> id = request.queryParam("id");
         
-        //2. Send request to service and get the Order object.
+        //2. Send request to service.
         Mono<Order> result;
         if(id.isPresent()) result = service.updateOrder(id.get(), dto);
         else {
@@ -82,7 +82,7 @@ public class OrderHandler {
 
         //1. Check if id query param is present.
         if(id.isPresent()) 
-        //2. Send request to service to get an order.
+        //2. Send request to service.
         {
             Mono<Order> result = service.getOrder(id.get());
             
@@ -123,7 +123,7 @@ public class OrderHandler {
         //1. Extract id from Server Request.
         Optional<String> id = request.queryParam("id");
         
-        //2. Send request to service and get the Order object.
+        //2. Send request to service.
         if(id.isPresent()) service.removeOrder(id.get());
 
         //3. Return server response and the order object in the body.

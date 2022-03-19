@@ -2,8 +2,6 @@ package com.jaymorelli.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.jaymorelli.service.OrderService;
-
 import org.junit.jupiter.api.Test;
 
 public class OrderTest {

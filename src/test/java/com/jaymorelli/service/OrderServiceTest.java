@@ -127,7 +127,7 @@ public class OrderServiceTest {
 
     @Test
     void testGetOrder_id() {
-        //1. Mock repository 'findAll'
+        //1. Mock repository 'findById'
         when(repository.findById("id")).thenReturn(Mono.just(order));
 
         //2. Call service method synchronously

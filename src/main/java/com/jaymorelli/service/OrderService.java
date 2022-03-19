@@ -43,6 +43,13 @@ public class OrderService {
         });
     }
 
+    /**
+    * Update a given order.
+    * It validates de DTO and then map to Order object.
+    * Finally will call MongoDB repository to update the order. 
+    * @param dto Order DTO
+    * @return Mono of the updated object.
+    */
     public Mono<Order> updateOrder(String id, Mono<OrderDTO> dto) {
        return dto.flatMap(orderDto -> {
             this.validate(orderDto);
@@ -84,6 +91,14 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
+    /**
+    * Remove an order by id.
+    * @param id order id
+    * @return Void.
+    */
+    public Mono<Void> removeOrder(String id) {
+        return orderRepository.deleteById(id);
+    }
 
     /**
      * Validade a orderDTO. It will call the OrderValidator class for validation.
@@ -116,11 +131,5 @@ public class OrderService {
 
         return order;
     }
-
-    public Mono<Void> removeOrder(String id) {
-        return orderRepository.deleteById(id);
-    }
-
-
 
 }
