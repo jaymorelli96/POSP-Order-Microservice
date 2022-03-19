@@ -71,7 +71,13 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
+		<!-- EUREKA CLIENT -->
+		<dependency>
+	        <groupId>org.springframework.cloud</groupId>
+	        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+	        <version>3.1.1</version>
+	    </dependency>
 
 		<!-- TEST -->
 		<dependency>

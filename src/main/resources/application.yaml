@@ -1,2 +1,13 @@
+spring:
+    application:
+        name: posp-order
+        
 server:
-    port: 8081
+    port: 8002
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: ${EUREKA_URI:http://localhost:8001/eureka}
+    instance:
+        preferIpAddress: true
