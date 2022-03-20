@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class RouterConfig {
 
-    private static final String ENDPOINT_PATH = "/order";
+    private static final String ENDPOINT_PATH = "/";
 
     /**
      * Router function for the endpoints of the Order service.
