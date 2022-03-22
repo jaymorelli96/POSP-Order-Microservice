@@ -1,12 +1,14 @@
 package com.jaymorelli.service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.jaymorelli.dto.OrderDTO;
 import com.jaymorelli.model.Order;
 import com.jaymorelli.repository.OrderRepository;
 import com.jaymorelli.validator.OrderValidator;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -94,11 +96,18 @@ public class OrderService {
     /**
     * Remove an order by id.
     * @param id order id
-    * @return Void.
+    * @return The Order object that has been removed
     */
-    public Mono<Void> removeOrder(String id) {
-        return orderRepository.deleteById(id);
+    public Mono<Order> removeOrder(String id) {
+        return this.getOrder(id)
+                        .flatMap(
+                            orderToBeDeleted -> this.orderRepository
+                                                        .delete(orderToBeDeleted)
+                                                        .then(Mono.just(orderToBeDeleted))
+                            )
+                        .log();
     }
+
 
     /**
      * Validade a orderDTO. It will call the OrderValidator class for validation.

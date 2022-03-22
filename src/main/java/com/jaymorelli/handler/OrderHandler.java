@@ -124,10 +124,10 @@ public class OrderHandler {
         Optional<String> id = request.queryParam("id");
         
         //2. Send request to service.
-        if(id.isPresent()) service.removeOrder(id.get());
-
+        if(id.isPresent()) return ServerResponse.ok().body(service.removeOrder(id.get()), Order.class);
         //3. Return server response and the order object in the body.
         return ServerResponse.ok().build();
+        
     }
 
 }

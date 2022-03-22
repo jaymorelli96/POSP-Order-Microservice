@@ -155,13 +155,15 @@ public class OrderServiceTest {
     @Test
     void testRemoveOrder() {
         //1. Mock repository 'findAll'
-        when(repository.deleteById("id")).thenReturn(Mono.empty());
+        when(repository.findById("id")).thenReturn(Mono.just(order));
+        when(repository.delete(order)).thenReturn(Mono.empty());
 
         //2. Call service method synchronously
         service.removeOrder("id").block();
 
         //3. Assert
-        verify(repository, times(1)).deleteById("id");
+        verify(repository, times(1)).delete(order);
+        verify(repository, times(1)).findById("id");
     }
 
 

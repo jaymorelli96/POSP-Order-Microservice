@@ -1,6 +1,6 @@
 spring:
     application:
-        name: posp-order
+        name: order
         
 server:
     port: 8003

@@ -18,10 +18,14 @@ import reactor.core.publisher.Mono;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 
+
+
 public class RouterConfigTest {
 
     private OrderService orderService;
     private WebTestClient client;
+
+    private final String ENDPOINT_PATH = "/";
 
     @BeforeEach
     void setUp() {
@@ -47,7 +51,7 @@ public class RouterConfigTest {
 
         //3. Mock call and assert
         client.post()
-                .uri(uriBuilder -> uriBuilder.path("/order")
+                .uri(uriBuilder -> uriBuilder.path(ENDPOINT_PATH)
                         .build())
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(result), Order.class)
@@ -73,7 +77,7 @@ public class RouterConfigTest {
 
         //3. Mock call and assert
         client.put()
-                .uri(uriBuilder -> uriBuilder.path("/order")
+                .uri(uriBuilder -> uriBuilder.path(ENDPOINT_PATH)
                         .queryParam("id", "id")
                         .build())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -98,7 +102,7 @@ public class RouterConfigTest {
 
         //3. Mock call and assert
         client.get()
-                .uri(uriBuilder -> uriBuilder.path("/order")
+                .uri(uriBuilder -> uriBuilder.path(ENDPOINT_PATH)
                         .build())
                 .exchange()
                 .expectStatus().isOk()
@@ -121,7 +125,7 @@ public class RouterConfigTest {
 
         //3. Mock call and assert
         client.get()
-                .uri(uriBuilder -> uriBuilder.path("/order")
+                .uri(uriBuilder -> uriBuilder.path(ENDPOINT_PATH)
                         .queryParam("id", "id")
                         .build())
                 .exchange()
@@ -145,7 +149,7 @@ public class RouterConfigTest {
 
         //3. Mock call and assert
         client.get()
-                .uri(uriBuilder -> uriBuilder.path("/order")
+                .uri(uriBuilder -> uriBuilder.path(ENDPOINT_PATH)
                         .queryParam("sort", "asc")
                         .queryParam("type", "table")
                         .build())
@@ -163,7 +167,7 @@ public class RouterConfigTest {
 
         //2. Mock call and assert
         client.delete()
-                .uri(uriBuilder -> uriBuilder.path("/order")
+                .uri(uriBuilder -> uriBuilder.path(ENDPOINT_PATH)
                         .queryParam("id", "id")
                         .build())
                 .exchange()

@@ -12,6 +12,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +25,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Order {
 
-    @Id
     private String id;
     private Item[] items;
     private String table;
